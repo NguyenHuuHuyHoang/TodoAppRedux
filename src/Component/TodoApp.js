@@ -1,14 +1,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { checkToDoAction } from "../actions/TodoAppActions";
+import { countTodoLeft } from "../selectors/TodoAppSelector";
+
 class TodoApp extends Component {
   renderToDo = (todoList) => {
-    return todoList.map(todo => {
-        return <li className="list-group-item" key={todo.id}>
-        <input type="checkbox" className="mr-2" checked={todo.isCompleted}/>
-        {todo.todo}
-      </li>
-    })
+    return todoList.map((todo) => {
+      return (
+        <li
+          className="list-group-item"
+          key={todo.id}
+          onClick={() => this.props.checkToDo(todo)}
+        >
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={todo.isCompleted}
+            readOnly
+          />
+          {todo.todo}
+        </li>
+      );
+    });
   };
   render() {
     return (
@@ -18,7 +32,7 @@ class TodoApp extends Component {
           <div className="row">
             <div className="col-5 m-auto shadow">
               <div className="d-flex align-items-center pl-4">
-                <i class="fa fa-angle-down mr-2" aria-hidden="true"></i>
+                <i className="fa fa-angle-down mr-2" aria-hidden="true"></i>
                 <input
                   type="text"
                   className="form-control border-0"
@@ -29,7 +43,7 @@ class TodoApp extends Component {
                 {this.renderToDo(this.props.todoList)}
               </ul>
               <div className="d-flex justify-content-between align-items-center">
-                <span>1 item left</span>
+                <span>{this.props.countTodoLeft} item left</span>
                 <div className="d-flex">
                   <button className="btn btn-default">All</button>
                   <button className="btn btn-default">Active</button>
@@ -48,7 +62,14 @@ class TodoApp extends Component {
 const mapStateToProps = (state) => {
   return {
     todoList: state.TodoAppReducer.todoList,
+    countTodoLeft: countTodoLeft(state.TodoAppReducer.todoList),
   };
 };
 
-export default connect(mapStateToProps)(TodoApp);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkToDo: (todo) => dispatch(checkToDoAction(todo)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoApp);

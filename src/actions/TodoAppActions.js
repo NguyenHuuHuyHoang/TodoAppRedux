@@ -1,4 +1,4 @@
-import { CHECK_TODO } from "../constants/TodoAppConstant";
+import { CHECK_TODO, CHECK_TODO_ALL } from "../constants/TodoAppConstant";
 
 export const checkToDoAction = (todo) => {
   return {
@@ -6,3 +6,10 @@ export const checkToDoAction = (todo) => {
     todo,
   };
 };
+
+
+export const checkToDoAllAction = () => {
+    return {
+      type: CHECK_TODO_ALL,
+    };
+  };
