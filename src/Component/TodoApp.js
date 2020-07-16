@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { checkToDoAction } from "../actions/TodoAppActions";
+import { checkTodoAction, checkTodoAllAction } from "../actions/TodoAppActions";
 import { countTodoLeft } from "../selectors/TodoAppSelector";
 
+
+
 class TodoApp extends Component {
+  
+  
   renderToDo = (todoList) => {
-    return todoList.map((todo) => {
+    return todoList.map((todo, index) => {
       return (
         <li
           className="list-group-item"
-          key={todo.id}
-          onClick={() => this.props.checkToDo(todo)}
+          key={index}
+          onClick={() => this.props.checkTodo(todo)}
         >
           <input
             type="checkbox"
@@ -32,7 +36,7 @@ class TodoApp extends Component {
           <div className="row">
             <div className="col-5 m-auto shadow">
               <div className="d-flex align-items-center pl-4">
-                <i className="fa fa-angle-down mr-2" aria-hidden="true"></i>
+                <i className="fa fa-angle-down mr-2" onClick={()=>{this.props.checkTodoAll(this.props.countTodoLeft)}}></i>
                 <input
                   type="text"
                   className="form-control border-0"
@@ -68,7 +72,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkToDo: (todo) => dispatch(checkToDoAction(todo)),
+    checkTodo: (todo) => dispatch(checkTodoAction(todo)),
+    checkTodoAll: (numberTodoLeft) =>
+      dispatch(checkTodoAllAction(numberTodoLeft)),
   };
 };
 
