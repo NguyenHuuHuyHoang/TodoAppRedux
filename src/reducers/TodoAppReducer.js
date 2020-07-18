@@ -26,6 +26,7 @@ export const TodoAppReducer = (state = initialState, action) => {
       });
       return { ...state, todoList: todoListNew };
     }
+
     case CHECK_TODO_ALL: {
       console.log(action.numberTodoLeft)
       
@@ -34,7 +35,7 @@ export const TodoAppReducer = (state = initialState, action) => {
         action.numberTodoLeft === state.todoList.length
       ) {
         const todoListNew = state.todoList.map((todo) => {
-          return !todo.isCompleted
+          return {...todo, isCompleted : !todo.isCompleted}
         });
         console.log(todoListNew)
         return { ...state, todoList: todoListNew };
