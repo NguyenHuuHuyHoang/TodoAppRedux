@@ -4,11 +4,7 @@ import { connect } from "react-redux";
 import { checkTodoAction, checkTodoAllAction } from "../actions/TodoAppActions";
 import { countTodoLeft } from "../selectors/TodoAppSelector";
 
-
-
 class TodoApp extends Component {
-  
-  
   renderToDo = (todoList) => {
     return todoList.map((todo, index) => {
       return (
@@ -36,7 +32,12 @@ class TodoApp extends Component {
           <div className="row">
             <div className="col-5 m-auto shadow">
               <div className="d-flex align-items-center pl-4">
-                <i className="fa fa-angle-down mr-2" onClick={()=>{this.props.checkTodoAll(this.props.countTodoLeft)}}></i>
+                <i
+                  className="fa fa-angle-down mr-2"
+                  onClick={() => {
+                    this.props.checkTodoAll(this.props.countTodoLeft);
+                  }}
+                ></i>
                 <input
                   type="text"
                   className="form-control border-0"
@@ -44,7 +45,9 @@ class TodoApp extends Component {
                 />
               </div>
               <ul className="list-group list-group-flush text-left">
-                {this.renderToDo(this.props.todoList)}
+                {this.props.todoListShow.length === 0
+                  ? this.renderToDo(this.props.todoList)
+                  : this.renderToDo(this.props.todoListShow)}
               </ul>
               <div className="d-flex justify-content-between align-items-center">
                 <span>{this.props.countTodoLeft} item left</span>
@@ -67,6 +70,7 @@ const mapStateToProps = (state) => {
   return {
     todoList: state.TodoAppReducer.todoList,
     countTodoLeft: countTodoLeft(state.TodoAppReducer.todoList),
+    todoListShow: state.TodoAppReducer.todoListShow,
   };
 };
 
