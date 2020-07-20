@@ -1,4 +1,11 @@
-import { CHECK_TODO, CHECK_TODO_ALL } from "../constants/TodoAppConstant";
+import {
+  CHECK_TODO,
+  CHECK_TODO_ALL,
+  SHOW_ALL_TODO,
+  SHOW_ACTIVE_TODO,
+  SHOW_COMPLETED_TODO,
+  CLEAR_COMPLETED_TODO,
+} from "../constants/TodoAppConstant";
 
 const initialState = {
   todoList: [
@@ -13,7 +20,7 @@ const initialState = {
       isCompleted: false,
     },
   ],
-  todoListShow: []
+  todoListShow: [],
 };
 
 export const TodoAppReducer = (state = initialState, action) => {
@@ -47,7 +54,36 @@ export const TodoAppReducer = (state = initialState, action) => {
       });
       return { ...state, todoList: todoListNew };
     }
+    case SHOW_ALL_TODO: {
+      const todoListShowNew = [ ...state.todoList ];
+      
+      return { ...state,  todoListShow: todoListShowNew };
+    }
 
+    case SHOW_ACTIVE_TODO: {
+      const todoListShowNew = state.todoList.filter((todo) => {
+        return todo.isCompleted === false;
+      });
+      return { ...state, ...state.todoListShow, todoListShow: todoListShowNew };
+    }
+
+    case SHOW_COMPLETED_TODO: {
+      const todoListShowNew = state.todoList.filter((todo) => {
+        return todo.isCompleted === true;
+      });
+      console.log(todoListShowNew);
+      return { ...state, ...state.todoListShow, todoListShow: todoListShowNew };
+    }
+    case CLEAR_COMPLETED_TODO: {
+      const todoListNew = state.todoList.filter((todo) => {
+        return todo.isCompleted === false;
+      });
+      const todoListShowNew = state.todoListShow.filter((todo) => {
+        return todo.isCompleted === false;
+      });
+
+      return { ...state, todoList: todoListNew, todoListShow: todoListShowNew };
+    }
     default:
       return state;
   }

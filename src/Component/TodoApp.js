@@ -1,10 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { checkTodoAction, checkTodoAllAction } from "../actions/TodoAppActions";
+import {
+  checkTodoAction,
+  checkTodoAllAction,
+  showAllTodo,
+  showActiveTodo,
+  showCompletedTodo,
+  clearCompletedTodo,
+} from "../actions/TodoAppActions";
 import { countTodoLeft } from "../selectors/TodoAppSelector";
 
 class TodoApp extends Component {
+  componentDidMount(){
+    this.props.showAllTodo()
+  };
+
   renderToDo = (todoList) => {
     return todoList.map((todo, index) => {
       return (
@@ -45,18 +56,40 @@ class TodoApp extends Component {
                 />
               </div>
               <ul className="list-group list-group-flush text-left">
-                {this.props.todoListShow.length === 0
-                  ? this.renderToDo(this.props.todoList)
-                  : this.renderToDo(this.props.todoListShow)}
+                {this.renderToDo(this.props.todoListShow)}
               </ul>
               <div className="d-flex justify-content-between align-items-center">
                 <span>{this.props.countTodoLeft} item left</span>
                 <div className="d-flex">
-                  <button className="btn btn-default">All</button>
-                  <button className="btn btn-default">Active</button>
-                  <button className="btn btn-default">Completed</button>
+                  <button
+                    className="btn btn-default"
+                    onClick={() => this.props.showAllTodo()}
+                  >
+                    All
+                  </button>
+                  <button
+                    className="btn btn-default"
+                    onClick={() => this.props.showActiveTodo()}
+                  >
+                    Active
+                  </button>
+                  <button
+                    className="btn btn-default"
+                    onClick={() => this.props.showCompletedTodo()}
+                  >
+                    Completed
+                  </button>
                 </div>
-                <span className="clear">Clear completed</span>
+                {this.props.countTodoLeft < this.props.todoList.length && (
+                  <span
+                    className="clear"
+                    onClick={() => {
+                      this.props.clearCompletedTodo();
+                    }}
+                  >
+                    Clear completed
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -79,6 +112,10 @@ const mapDispatchToProps = (dispatch) => {
     checkTodo: (todo) => dispatch(checkTodoAction(todo)),
     checkTodoAll: (numberTodoLeft) =>
       dispatch(checkTodoAllAction(numberTodoLeft)),
+    showAllTodo: () => dispatch(showAllTodo()),
+    showActiveTodo: () => dispatch(showActiveTodo()),
+    showCompletedTodo: () => dispatch(showCompletedTodo()),
+    clearCompletedTodo: () => dispatch(clearCompletedTodo()),
   };
 };
 
