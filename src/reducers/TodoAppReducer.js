@@ -36,50 +36,94 @@ export const TodoAppReducer = (state = initialState, action) => {
     }
 
     case CHECK_TODO_ALL: {
-      if (
-        action.numberTodoLeft === 0 ||
-        action.numberTodoLeft === state.todoList.length
-      ) {
-        const todoListNew = state.todoList.map((todo) => {
-          return { ...todo, isCompleted: !todo.isCompleted };
+      if (action.numberTodoLeft > 0) {
+        const todoListShowNew = state.todoListShow.map((todo) => {
+          if (todo.isCompleted) {
+            return todo;
+          }
+          return (todo.isCompleted = !todo.isCompleted);
         });
 
-        return { ...state, todoList: todoListNew };
+        const todoListNew = state.todoList.map((todo) => {
+          if (todo.isCompleted) {
+            return todo;
+          }
+          return (todo.isCompleted = !todo.isCompleted);
+        });
+
+        return {
+          ...state,
+          todoList: todoListNew,
+          todoListShow: todoListShowNew,
+        };
       }
+
       const todoListNew = state.todoList.map((todo) => {
-        if (!todo.isCompleted) {
-          todo.isCompleted = !todo.isCompleted;
-        }
-        return todo;
+        return (todo.isCompleted = !todo.isCompleted);
       });
-      return { ...state, todoList: todoListNew };
+      const todoListShowNew = state.todoListShow.map((todo) => {
+        return (todo.isCompleted = !todo.isCompleted);
+      });
+
+      return { ...state, todoListShow: todoListShowNew, todoList: todoListNew };
+
+      // if (
+      //   action.numberTodoLeft === 0 ||
+      //   action.numberTodoLeft === state.todoList.length
+      // ) {
+      //   const todoListNew = state.todoList.map((todo) => {
+      //     return { ...todo, isCompleted: !todo.isCompleted };
+      //   });
+      //   const todoListShowNew = state.todoListShow.map((todo) => {
+      //     return { ...todo, isCompleted: !todo.isCompleted };
+      //   });
+
+      //   return {
+      //     ...state,
+
+      //     todoList: todoListNew,
+
+      //     todoListShow: todoListShowNew,
+      //   };
+      // }
+      // const todoListNew = state.todoList.map((todo) => {
+      //   if (!todo.isCompleted) {
+      //     todo.isCompleted = !todo.isCompleted;
+      //   }
+      //   return todo;
+      // });
+      // const todoListShowNew = state.todoListShow.map((todo) => {
+      //   if (!todo.isCompleted) {
+      //     todo.isCompleted = !todo.isCompleted;
+      //   }
+      // });
+      // return { ...state, todoList: todoListNew, todoListShow: todoListShowNew };
     }
     case SHOW_ALL_TODO: {
-      const todoListShowNew = [ ...state.todoList ];
-      
-      return { ...state,  todoListShow: todoListShowNew };
+      const todoListShowNew = [...state.todoList];
+
+      return { ...state, todoListShow: todoListShowNew };
     }
 
     case SHOW_ACTIVE_TODO: {
       const todoListShowNew = state.todoList.filter((todo) => {
-        return todo.isCompleted === false;
+        return !todo.isCompleted;
       });
-      return { ...state, ...state.todoListShow, todoListShow: todoListShowNew };
+      return { ...state, todoListShow: todoListShowNew };
     }
 
     case SHOW_COMPLETED_TODO: {
       const todoListShowNew = state.todoList.filter((todo) => {
-        return todo.isCompleted === true;
+        return todo.isCompleted;
       });
-      console.log(todoListShowNew);
-      return { ...state, ...state.todoListShow, todoListShow: todoListShowNew };
+      return { ...state, todoListShow: todoListShowNew };
     }
     case CLEAR_COMPLETED_TODO: {
       const todoListNew = state.todoList.filter((todo) => {
-        return todo.isCompleted === false;
+        return !todo.isCompleted;
       });
       const todoListShowNew = state.todoListShow.filter((todo) => {
-        return todo.isCompleted === false;
+        return !todo.isCompleted;
       });
 
       return { ...state, todoList: todoListNew, todoListShow: todoListShowNew };

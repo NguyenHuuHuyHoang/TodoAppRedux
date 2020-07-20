@@ -12,10 +12,9 @@ import {
 import { countTodoLeft } from "../selectors/TodoAppSelector";
 
 class TodoApp extends Component {
-  
-  componentDidMount(){
-    this.props.showAllTodo()
-  };
+  componentDidMount() {
+    this.props.showAllTodo();
+  }
 
   renderToDo = (todoList) => {
     return todoList.map((todo, index) => {
