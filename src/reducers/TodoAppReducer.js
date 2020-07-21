@@ -19,6 +19,7 @@ const initialState = {
       todo: "di ngu",
       isCompleted: false,
     },
+    { id: 3, todo: "di choi", isCompleted: true },
   ],
   todoListShow: [],
 };
@@ -28,27 +29,30 @@ export const TodoAppReducer = (state = initialState, action) => {
     case CHECK_TODO: {
       const todoListNew = state.todoList.map((todo) => {
         if (todo.id === action.todo.id) {
-          todo.isCompleted = !todo.isCompleted;
+          return { ...todo, isCompleted: !todo.isCompleted };
         }
         return todo;
       });
-      return { ...state, todoList: todoListNew };
+      const todoListShowNew = state.todoListShow.map((todo) => {
+        if (todo.id === action.todo.id) {
+          return { ...todo, isCompleted: !todo.isCompleted };
+        }
+        return todo;
+      });
+      return { ...state, todoList: todoListNew, todoListShow: todoListShowNew };
     }
 
     case CHECK_TODO_ALL: {
-      if (action.numberTodoLeft > 0) {
+      if (
+        action.numberTodoLeft === 0 ||
+        action.numberTodoLeft === state.todoList.length
+      ) {
         const todoListShowNew = state.todoListShow.map((todo) => {
-          if (todo.isCompleted) {
-            return todo;
-          }
-          return (todo.isCompleted = !todo.isCompleted);
+          return { ...todo, isCompleted: !todo.isCompleted };
         });
 
         const todoListNew = state.todoList.map((todo) => {
-          if (todo.isCompleted) {
-            return todo;
-          }
-          return (todo.isCompleted = !todo.isCompleted);
+          return { ...todo, isCompleted: !todo.isCompleted };
         });
 
         return {
@@ -59,10 +63,10 @@ export const TodoAppReducer = (state = initialState, action) => {
       }
 
       const todoListNew = state.todoList.map((todo) => {
-        return (todo.isCompleted = !todo.isCompleted);
+        return { ...todo, isCompleted: true };
       });
       const todoListShowNew = state.todoListShow.map((todo) => {
-        return (todo.isCompleted = !todo.isCompleted);
+        return { ...todo, isCompleted: true };
       });
 
       return { ...state, todoListShow: todoListShowNew, todoList: todoListNew };
