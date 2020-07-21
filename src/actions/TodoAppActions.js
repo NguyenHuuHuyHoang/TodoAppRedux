@@ -5,7 +5,15 @@ import {
   SHOW_COMPLETED_TODO,
   SHOW_ALL_TODO,
   CLEAR_COMPLETED_TODO,
+  ADD_NEW_TODO
 } from "../constants/TodoAppConstant";
+
+export const addNewTodo = (todoContent) => {
+  return {
+    type: ADD_NEW_TODO,
+    todoContent
+  }
+}
 
 export const checkTodoAction = (todo) => {
   return {

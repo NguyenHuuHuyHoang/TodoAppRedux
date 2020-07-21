@@ -5,6 +5,7 @@ import {
   SHOW_ACTIVE_TODO,
   SHOW_COMPLETED_TODO,
   CLEAR_COMPLETED_TODO,
+  ADD_NEW_TODO,
 } from "../constants/TodoAppConstant";
 
 const initialState = {
@@ -70,38 +71,13 @@ export const TodoAppReducer = (state = initialState, action) => {
       });
 
       return { ...state, todoListShow: todoListShowNew, todoList: todoListNew };
+    }
 
-      // if (
-      //   action.numberTodoLeft === 0 ||
-      //   action.numberTodoLeft === state.todoList.length
-      // ) {
-      //   const todoListNew = state.todoList.map((todo) => {
-      //     return { ...todo, isCompleted: !todo.isCompleted };
-      //   });
-      //   const todoListShowNew = state.todoListShow.map((todo) => {
-      //     return { ...todo, isCompleted: !todo.isCompleted };
-      //   });
+    case ADD_NEW_TODO: {
+      const todoNewID = state.todoList.length + 1
+      const todoListNew = [...state.todoList, {todoNewID, todo: action.todoContent, isCompleted: false}]
 
-      //   return {
-      //     ...state,
-
-      //     todoList: todoListNew,
-
-      //     todoListShow: todoListShowNew,
-      //   };
-      // }
-      // const todoListNew = state.todoList.map((todo) => {
-      //   if (!todo.isCompleted) {
-      //     todo.isCompleted = !todo.isCompleted;
-      //   }
-      //   return todo;
-      // });
-      // const todoListShowNew = state.todoListShow.map((todo) => {
-      //   if (!todo.isCompleted) {
-      //     todo.isCompleted = !todo.isCompleted;
-      //   }
-      // });
-      // return { ...state, todoList: todoListNew, todoListShow: todoListShowNew };
+      return {...state, todoList : todoListNew}
     }
     case SHOW_ALL_TODO: {
       const todoListShowNew = [...state.todoList];
