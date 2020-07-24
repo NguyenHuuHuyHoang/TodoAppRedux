@@ -6,6 +6,7 @@ import {
   SHOW_COMPLETED_TODO,
   CLEAR_COMPLETED_TODO,
   ADD_NEW_TODO,
+  DELETE_TODO,
 } from "../constants/TodoAppConstant";
 
 const initialState = {
@@ -34,7 +35,7 @@ export const TodoAppReducer = (state = initialState, action) => {
         }
         return todo;
       });
-      console.log(state.todoList)
+      console.log(state.todoList);
       return { ...state, todoList: todoListNew };
     }
 
@@ -69,6 +70,18 @@ export const TodoAppReducer = (state = initialState, action) => {
 
       return { ...state, todoList: todoListNew };
     }
+
+case DELETE_TODO: {
+  const todoListNew = state.todoList.filter (todo => {
+    if (todo.id === action.todo.id) {
+      return
+    }
+    return todo
+  })
+
+  return {...state, todoList: todoListNew}
+}
+
     case SHOW_ALL_TODO: {
       return { ...state, filter: "all" };
     }
@@ -80,6 +93,7 @@ export const TodoAppReducer = (state = initialState, action) => {
     case SHOW_COMPLETED_TODO: {
       return { ...state, filter: "completed" };
     }
+
     case CLEAR_COMPLETED_TODO: {
       const todoListNew = state.todoList.filter((todo) => {
         return !todo.isCompleted;
@@ -87,6 +101,7 @@ export const TodoAppReducer = (state = initialState, action) => {
 
       return { ...state, todoList: todoListNew };
     }
+
     default:
       return state;
   }

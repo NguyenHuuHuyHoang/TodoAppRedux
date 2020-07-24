@@ -15,3 +15,22 @@ code {
 .completed {
   text-decoration: line-through;
 }
+
+.clear:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+img {
+  display: none
+}
+
+.list-group-item:hover img:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.list-group-item:hover img {
+  display: block;
+  opacity: 0.5
+}

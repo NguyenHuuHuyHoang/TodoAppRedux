@@ -9,8 +9,11 @@ import {
   showCompletedTodoAction,
   clearCompletedTodoAction,
   addNewTodoAction,
+  deleteTodoAction,
 } from "../actions/TodoAppActions";
+
 import { countTodoLeft } from "../selectors/TodoAppSelector";
+import closeIcon from "../img/close.svg";
 
 class TodoApp extends Component {
   componentDidMount() {
@@ -43,17 +46,26 @@ class TodoApp extends Component {
     return todoList.map((todo, index) => {
       return (
         <li
-          className="list-group-item "
+          className="list-group-item d-flex justify-content-between align-items-center"
           key={index}
           onClick={() => this.props.checkTodo(todo)}
         >
-          <input
-            type="checkbox"
-            className="mr-2"
-            checked={todo.isCompleted}
-            readOnly
+          <div>
+            <input
+              type="checkbox"
+              className="mr-2"
+              checked={todo.isCompleted}
+              readOnly
+            />
+            <span className={todo.isCompleted && "completed"}>{todo.todo}</span>
+          </div>
+          <img
+            src={closeIcon}
+            alt="closeIcon"
+            width={16}
+            height={16}
+            onClick={() => this.props.deleteTodo(todo)}
           />
-          <span className= {todo.isCompleted && "completed" }>{todo.todo}</span> 
         </li>
       );
     });
@@ -153,6 +165,7 @@ const mapDispatchToProps = (dispatch) => {
     showCompletedTodo: () => dispatch(showCompletedTodoAction()),
     clearCompletedTodo: () => dispatch(clearCompletedTodoAction()),
     addNewTodo: (todoContent) => dispatch(addNewTodoAction(todoContent)),
+    deleteTodo: (todo) => dispatch(deleteTodoAction(todo)),
   };
 };
 

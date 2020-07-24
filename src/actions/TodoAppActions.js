@@ -6,6 +6,7 @@ import {
   SHOW_ALL_TODO,
   CLEAR_COMPLETED_TODO,
   ADD_NEW_TODO,
+  DELETE_TODO,
 } from "../constants/TodoAppConstant";
 
 export const addNewTodoAction = (todoContent) => {
@@ -52,3 +53,10 @@ export const clearCompletedTodoAction = () => {
     type: CLEAR_COMPLETED_TODO,
   };
 };
+
+export const deleteTodoAction = (todo) => {
+  return {
+    type: DELETE_TODO,
+    todo
+  }
+}
