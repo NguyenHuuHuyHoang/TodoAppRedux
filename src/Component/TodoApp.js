@@ -53,7 +53,7 @@ class TodoApp extends Component {
             checked={todo.isCompleted}
             readOnly
           />
-          <span className= {todo.isCompleted && "done" }>{todo.todo}</span> 
+          <span className= {todo.isCompleted && "completed" }>{todo.todo}</span> 
         </li>
       );
     });
