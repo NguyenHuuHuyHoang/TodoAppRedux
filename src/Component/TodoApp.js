@@ -128,16 +128,19 @@ class TodoApp extends Component {
                     Completed
                   </button>
                 </div>
-                {this.props.countTodoLeft < this.props.todoList.length && (
-                  <span
-                    className="clear"
-                    onClick={() => {
-                      this.props.clearCompletedTodo();
-                    }}
-                  >
-                    Clear completed
-                  </span>
-                )}
+                <span
+                  className={
+                    "clear " +
+                    (this.props.countTodoLeft < this.props.todoList.length
+                      ? ""
+                      : "hidden")
+                  }
+                  onClick={() => {
+                    this.props.clearCompletedTodo();
+                  }}
+                >
+                  Clear completed
+                </span>
               </div>
             </div>
           </div>

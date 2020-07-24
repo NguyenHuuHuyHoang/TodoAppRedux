@@ -34,3 +34,7 @@ img {
   display: block;
   opacity: 0.5
 }
+
+.hidden {
+  visibility: hidden;
+}
