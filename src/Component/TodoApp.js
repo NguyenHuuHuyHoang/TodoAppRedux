@@ -43,7 +43,7 @@ class TodoApp extends Component {
     return todoList.map((todo, index) => {
       return (
         <li
-          className="list-group-item"
+          className="list-group-item "
           key={index}
           onClick={() => this.props.checkTodo(todo)}
         >
@@ -53,7 +53,7 @@ class TodoApp extends Component {
             checked={todo.isCompleted}
             readOnly
           />
-          {todo.todo}
+          <span className= {todo.isCompleted && "done" }>{todo.todo}</span> 
         </li>
       );
     });
