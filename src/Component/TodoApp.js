@@ -16,6 +16,28 @@ class TodoApp extends Component {
     this.props.showAllTodo();
   }
 
+  filterToDo = (filter, todoList) => {
+    switch (filter) {
+      case "all": {
+        return todoList.filter((todo) => {
+          return todo;
+        });
+      }
+      case "active": {
+        return todoList.filter((todo) => {
+          return !todo.isCompleted;
+        });
+      }
+      case "completed": {
+        return todoList.filter((todo) => {
+          return todo.isCompleted;
+        });
+      }
+      default:
+        return []
+    }
+  };
+
   renderToDo = (todoList) => {
     return todoList.map((todo, index) => {
       return (
@@ -35,7 +57,9 @@ class TodoApp extends Component {
       );
     });
   };
+
   render() {
+    const { countTodoLeft, filter, todoList} = this.props
     return (
       <div>
         <h2>Todos</h2>
@@ -46,7 +70,7 @@ class TodoApp extends Component {
                 <i
                   className="fa fa-angle-down mr-2"
                   onClick={() => {
-                    this.props.checkTodoAll(this.props.countTodoLeft);
+                    this.props.checkTodoAll(countTodoLeft);
                   }}
                 ></i>
                 <input
@@ -56,7 +80,7 @@ class TodoApp extends Component {
                 />
               </div>
               <ul className="list-group list-group-flush text-left">
-                {this.renderToDo(this.props.todoListShow)}
+                {this.renderToDo(this.filterToDo(filter,todoList))}
               </ul>
               <div className="d-flex justify-content-between align-items-center">
                 <span>{this.props.countTodoLeft} item left</span>
@@ -103,7 +127,7 @@ const mapStateToProps = (state) => {
   return {
     todoList: state.TodoAppReducer.todoList,
     countTodoLeft: countTodoLeft(state.TodoAppReducer.todoList),
-    todoListShow: state.TodoAppReducer.todoListShow,
+    filter: state.TodoAppReducer.filter,
   };
 };
 

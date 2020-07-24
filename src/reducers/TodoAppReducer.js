@@ -22,7 +22,7 @@ const initialState = {
     },
     { id: 3, todo: "di choi", isCompleted: true },
   ],
-  todoListShow: [],
+  filter: "all"
 };
 
 export const TodoAppReducer = (state = initialState, action) => {
@@ -34,13 +34,8 @@ export const TodoAppReducer = (state = initialState, action) => {
         }
         return todo;
       });
-      const todoListShowNew = state.todoListShow.map((todo) => {
-        if (todo.id === action.todo.id) {
-          return { ...todo, isCompleted: !todo.isCompleted };
-        }
-        return todo;
-      });
-      return { ...state, todoList: todoListNew, todoListShow: todoListShowNew };
+     
+      return { ...state, todoList: todoListNew};
     }
 
     case CHECK_TODO_ALL: {
@@ -48,9 +43,6 @@ export const TodoAppReducer = (state = initialState, action) => {
         action.numberTodoLeft === 0 ||
         action.numberTodoLeft === state.todoList.length
       ) {
-        const todoListShowNew = state.todoListShow.map((todo) => {
-          return { ...todo, isCompleted: !todo.isCompleted };
-        });
 
         const todoListNew = state.todoList.map((todo) => {
           return { ...todo, isCompleted: !todo.isCompleted };
@@ -59,18 +51,15 @@ export const TodoAppReducer = (state = initialState, action) => {
         return {
           ...state,
           todoList: todoListNew,
-          todoListShow: todoListShowNew,
         };
       }
 
       const todoListNew = state.todoList.map((todo) => {
         return { ...todo, isCompleted: true };
       });
-      const todoListShowNew = state.todoListShow.map((todo) => {
-        return { ...todo, isCompleted: true };
-      });
 
-      return { ...state, todoListShow: todoListShowNew, todoList: todoListNew };
+
+      return { ...state, todoList: todoListNew };
     }
 
     case ADD_NEW_TODO: {
@@ -80,33 +69,24 @@ export const TodoAppReducer = (state = initialState, action) => {
       return {...state, todoList : todoListNew}
     }
     case SHOW_ALL_TODO: {
-      const todoListShowNew = [...state.todoList];
-
-      return { ...state, todoListShow: todoListShowNew };
+      return { ...state, filter: "all" };
     }
 
     case SHOW_ACTIVE_TODO: {
-      const todoListShowNew = state.todoList.filter((todo) => {
-        return !todo.isCompleted;
-      });
-      return { ...state, todoListShow: todoListShowNew };
+      return { ...state, filter: "active" };
     }
 
     case SHOW_COMPLETED_TODO: {
-      const todoListShowNew = state.todoList.filter((todo) => {
-        return todo.isCompleted;
-      });
-      return { ...state, todoListShow: todoListShowNew };
+    
+      return { ...state, filter: "completed" };
     }
     case CLEAR_COMPLETED_TODO: {
       const todoListNew = state.todoList.filter((todo) => {
         return !todo.isCompleted;
       });
-      const todoListShowNew = state.todoListShow.filter((todo) => {
-        return !todo.isCompleted;
-      });
+      
 
-      return { ...state, todoList: todoListNew, todoListShow: todoListShowNew };
+      return { ...state, todoList: todoListNew };
     }
     default:
       return state;
