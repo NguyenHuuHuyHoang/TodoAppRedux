@@ -74,7 +74,7 @@ export const TodoAppReducer = (state = initialState, action) => {
 case DELETE_TODO: {
   const todoListNew = state.todoList.filter (todo => {
     if (todo.id === action.todo.id) {
-      return
+      return null
     }
     return todo
   })
