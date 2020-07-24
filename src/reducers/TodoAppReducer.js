@@ -22,7 +22,7 @@ const initialState = {
     },
     { id: 3, todo: "di choi", isCompleted: true },
   ],
-  filter: "all"
+  filter: "all",
 };
 
 export const TodoAppReducer = (state = initialState, action) => {
@@ -34,8 +34,8 @@ export const TodoAppReducer = (state = initialState, action) => {
         }
         return todo;
       });
-     
-      return { ...state, todoList: todoListNew};
+      console.log(state.todoList)
+      return { ...state, todoList: todoListNew };
     }
 
     case CHECK_TODO_ALL: {
@@ -43,7 +43,6 @@ export const TodoAppReducer = (state = initialState, action) => {
         action.numberTodoLeft === 0 ||
         action.numberTodoLeft === state.todoList.length
       ) {
-
         const todoListNew = state.todoList.map((todo) => {
           return { ...todo, isCompleted: !todo.isCompleted };
         });
@@ -58,15 +57,17 @@ export const TodoAppReducer = (state = initialState, action) => {
         return { ...todo, isCompleted: true };
       });
 
-
       return { ...state, todoList: todoListNew };
     }
 
     case ADD_NEW_TODO: {
-      const todoNewID = state.todoList.length + 1
-      const todoListNew = [...state.todoList, {todoNewID, todo: action.todoContent, isCompleted: false}]
+      const todoNewID = state.todoList.length + 1;
+      const todoListNew = [
+        { id: todoNewID, todo: action.todoContent, isCompleted: false },
+        ...state.todoList,
+      ];
 
-      return {...state, todoList : todoListNew}
+      return { ...state, todoList: todoListNew };
     }
     case SHOW_ALL_TODO: {
       return { ...state, filter: "all" };
@@ -77,14 +78,12 @@ export const TodoAppReducer = (state = initialState, action) => {
     }
 
     case SHOW_COMPLETED_TODO: {
-    
       return { ...state, filter: "completed" };
     }
     case CLEAR_COMPLETED_TODO: {
       const todoListNew = state.todoList.filter((todo) => {
         return !todo.isCompleted;
       });
-      
 
       return { ...state, todoList: todoListNew };
     }

@@ -5,15 +5,15 @@ import {
   SHOW_COMPLETED_TODO,
   SHOW_ALL_TODO,
   CLEAR_COMPLETED_TODO,
-  ADD_NEW_TODO
+  ADD_NEW_TODO,
 } from "../constants/TodoAppConstant";
 
-export const addNewTodo = (todoContent) => {
+export const addNewTodoAction = (todoContent) => {
   return {
     type: ADD_NEW_TODO,
-    todoContent
-  }
-}
+    todoContent,
+  };
+};
 
 export const checkTodoAction = (todo) => {
   return {
@@ -29,25 +29,25 @@ export const checkTodoAllAction = (numberTodoLeft) => {
   };
 };
 
-export const showActiveTodo = () => {
+export const showActiveTodoAction = () => {
   return {
     type: SHOW_ACTIVE_TODO,
   };
 };
 
-export const showCompletedTodo = () => {
+export const showCompletedTodoAction = () => {
   return {
     type: SHOW_COMPLETED_TODO,
   };
 };
 
-export const showAllTodo = () => {
+export const showAllTodoAction = () => {
   return {
     type: SHOW_ALL_TODO,
   };
 };
 
-export const clearCompletedTodo = () => {
+export const clearCompletedTodoAction = () => {
   return {
     type: CLEAR_COMPLETED_TODO,
   };

@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import {
   checkTodoAction,
   checkTodoAllAction,
-  showAllTodo,
-  showActiveTodo,
-  showCompletedTodo,
-  clearCompletedTodo,
+  showAllTodoAction,
+  showActiveTodoAction,
+  showCompletedTodoAction,
+  clearCompletedTodoAction,
+  addNewTodoAction,
 } from "../actions/TodoAppActions";
 import { countTodoLeft } from "../selectors/TodoAppSelector";
 
@@ -34,7 +35,7 @@ class TodoApp extends Component {
         });
       }
       default:
-        return []
+        return [];
     }
   };
 
@@ -58,8 +59,18 @@ class TodoApp extends Component {
     });
   };
 
+  handleKeyUp = (evt) => {
+    const { value } = evt.target;
+    const { keyCode } = evt;
+    if (keyCode === 13) {
+      this.props.addNewTodo(value);
+      evt.target.value = "";
+    }
+    return;
+  };
+
   render() {
-    const { countTodoLeft, filter, todoList} = this.props
+    const { countTodoLeft, filter, todoList } = this.props;
     return (
       <div>
         <h2>Todos</h2>
@@ -77,10 +88,11 @@ class TodoApp extends Component {
                   type="text"
                   className="form-control border-0"
                   placeholder="What needs to be done ?"
+                  onKeyUp={(evt) => this.handleKeyUp(evt)}
                 />
               </div>
               <ul className="list-group list-group-flush text-left">
-                {this.renderToDo(this.filterToDo(filter,todoList))}
+                {this.renderToDo(this.filterToDo(filter, todoList))}
               </ul>
               <div className="d-flex justify-content-between align-items-center">
                 <span>{this.props.countTodoLeft} item left</span>
@@ -136,10 +148,11 @@ const mapDispatchToProps = (dispatch) => {
     checkTodo: (todo) => dispatch(checkTodoAction(todo)),
     checkTodoAll: (numberTodoLeft) =>
       dispatch(checkTodoAllAction(numberTodoLeft)),
-    showAllTodo: () => dispatch(showAllTodo()),
-    showActiveTodo: () => dispatch(showActiveTodo()),
-    showCompletedTodo: () => dispatch(showCompletedTodo()),
-    clearCompletedTodo: () => dispatch(clearCompletedTodo()),
+    showAllTodo: () => dispatch(showAllTodoAction()),
+    showActiveTodo: () => dispatch(showActiveTodoAction()),
+    showCompletedTodo: () => dispatch(showCompletedTodoAction()),
+    clearCompletedTodo: () => dispatch(clearCompletedTodoAction()),
+    addNewTodo: (todoContent) => dispatch(addNewTodoAction(todoContent)),
   };
 };
 
