@@ -25,6 +25,10 @@ img {
   display: none
 }
 
+i:hover {
+  cursor: pointer;
+}
+
 .list-group-item:hover img:hover {
   opacity: 1;
   cursor: pointer;
@@ -37,4 +41,12 @@ img {
 
 .hidden {
   visibility: hidden;
+}
+
+.active {
+  border: 1px solid orange
+}
+
+.btn-default {
+  box-shadow: none !important;
 }

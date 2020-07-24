@@ -94,6 +94,7 @@ class TodoApp extends Component {
                   className="fa fa-angle-down mr-2"
                   onClick={() => {
                     this.props.checkTodoAll(countTodoLeft);
+                    
                   }}
                 ></i>
                 <input
@@ -106,23 +107,23 @@ class TodoApp extends Component {
               <ul className="list-group list-group-flush text-left">
                 {this.renderToDo(this.filterToDo(filter, todoList))}
               </ul>
-              <div className="d-flex justify-content-between align-items-center">
+              <div className="d-flex justify-content-between align-items-center m-2">
                 <span>{this.props.countTodoLeft} item left</span>
-                <div className="d-flex">
+                <div className="d-flex ">
                   <button
-                    className="btn btn-default"
+                    className={"btn btn-default "  + (filter === "all" ? "active" : "") }
                     onClick={() => this.props.showAllTodo()}
                   >
                     All
                   </button>
                   <button
-                    className="btn btn-default"
+                    className={"btn btn-default "  + (filter === "active" ? "active" : "") }
                     onClick={() => this.props.showActiveTodo()}
                   >
                     Active
                   </button>
                   <button
-                    className="btn btn-default"
+                    className={"btn btn-default "  + (filter === "completed" ? "active" : "") }
                     onClick={() => this.props.showCompletedTodo()}
                   >
                     Completed
